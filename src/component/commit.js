@@ -3,7 +3,6 @@ import React , { useState , useEffect}  from 'react'
 import { CommitDiv, CommitImg, CommitRepo, CommitMessage, CommitTextDiv, CommitType} from '../style/mainStyle'
 
 function Commit(props){
-    console.log(props);
     const commit = props.data.payload.commits;
     const repo = props.data.repo;
 

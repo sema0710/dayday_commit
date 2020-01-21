@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Main from './component/main'
 import TodayCommit from './component/todayCommit'
-import { Link, Route, BrowserRouter as Router } from 'react-router-dom'
+import { Route, BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
   // const [userData,dataChange] = useState({});
