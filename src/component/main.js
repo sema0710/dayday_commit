@@ -1,23 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { MainPage , MainInput , MainSearchButton , MainWrapper , MainTitle } from '../style/mainStyle';
-import { Link } from 'react-router-dom';
-function Main(props){
-    const input = useRef(null);
-    const button = useRef(null);
-    let userId; 
+import { withRouter } from 'react-router-dom';
 
-    const inputChange = ()=>{
-        userId = input.current.value;
-        console.log(userId);
-    }
+function Main({history}){
+
+    const [userId, userIdChange] = useState(undefined);
 
     const buttonClick = ()=>{
         axios.get(`https://api.github.com/users/${userId}`)
         .then((data)=>{
-            props.dataChange(data.data);
-            localStorage.setItem("user",userId);
-            window.location.href="/today"
+            history.push(`/Today/${userId}`)
         }).catch(e=>{
             alert("please check your id");
         })
@@ -29,15 +22,22 @@ function Main(props){
         }
     }
 
+    const inputChange = e => {
+        userIdChange(e.target.value)
+    }
+
     return(
             <MainPage>
                 <MainWrapper>
                     <MainTitle>one day one commit</MainTitle>
-                        <MainInput onChange={inputChange} ref={input} onKeyPress={keyPress} placeholder="insert your github id"/>
-                        <MainSearchButton onClick={buttonClick} ref={button}>Search!</MainSearchButton>
+                        <MainInput 
+                            onChange={inputChange} 
+                            onKeyPress={keyPress} 
+                            placeholder="insert your github id"/>
+                        <MainSearchButton onClick={buttonClick} >Search!</MainSearchButton>
                 </MainWrapper>
             </MainPage>
     );
 }
 
-export default Main;
+export default withRouter(Main);

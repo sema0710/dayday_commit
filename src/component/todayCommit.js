@@ -3,24 +3,21 @@ import {} from '../style/mainStyle'
 import axios from 'axios'
 import Commits from './commits'
 import { UserPro , TodayCommitDiv, TodayWrapper, MainText, SubText , CommitProTextWrapper, CommitPro, TodayMain } from '../style/mainStyle'
+import { useParams } from 'react-router-dom'
 
-function TodayCommit(props){
-    let [ render,renderChange ] = useState(false);
-    let userId = localStorage.getItem("user");
+function TodayCommit(){
+    let [render, renderChange] = useState(false);
+    const [userData, userDataChange] = useState();
+    const { userId } = useParams();
 
     useEffect(()=>{
-        if(Object.keys(props.userData).length <= 0){
-            axios.get(`https://api.github.com/users/${userId}`)
-            .then((data)=>{
-                Object.assign(props.userData,data.data);
-                renderChange(true);
-                // cummitCheck(userId);
-            }).catch(e=>{
-                console.log(e)
-                alert("network error");
-                window.location.href = "/";
-            })
-        }
+        axios.get(`https://api.github.com/users/${userId}`)
+        .then((data)=>{
+            userDataChange(data.data);
+            renderChange(true);
+        }).catch(()=>{
+            alert("network error");
+        })
     },[]);
 
     if(render){
@@ -28,12 +25,12 @@ function TodayCommit(props){
             <>
                 <TodayCommitDiv>
                     <TodayWrapper>
-                        <UserPro src={props.userData.avatar_url} alt="userPro"/>
+                        <UserPro src={userData.avatar_url} alt="userPro"/>
                         <CommitPro>
                             <CommitProTextWrapper>
-                                <MainText>{props.userData.login}</MainText>
-                                <SubText>{props.userData.name}</SubText>
-                                <SubText>{props.userData.bio}</SubText>
+                                <MainText>{userData.login}</MainText>
+                                <SubText>{userData.name}</SubText>
+                                <SubText>{userData.bio}</SubText>
                             </CommitProTextWrapper>
                         </CommitPro>
                     <TodayMain height={window.innerHeight}>

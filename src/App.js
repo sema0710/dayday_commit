@@ -4,13 +4,13 @@ import TodayCommit from './component/todayCommit'
 import { Link, Route, BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
-  const [userData,dataChange] = useState({});
+  // const [userData,dataChange] = useState({});
   return (
     <>
     <link href="https://fonts.googleapis.com/css?family=Calistoga&display=swap" rel="stylesheet"/>
     <Router>
-      <Route exact path="/" render={()=><Main dataChange={dataChange}></Main>}></Route>
-      <Route path="/Today" render={()=><TodayCommit userData={userData}></TodayCommit>}></Route>
+      <Route exact path="/" render={()=><Main/>}></Route>
+      <Route path="/Today/:userId" render={()=><TodayCommit/>}></Route>
     </Router>
     </>
   );
